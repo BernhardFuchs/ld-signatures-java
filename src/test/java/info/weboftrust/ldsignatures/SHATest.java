@@ -3,11 +3,14 @@ package info.weboftrust.ldsignatures;
 import org.apache.commons.codec.binary.Hex;
 
 import info.weboftrust.ldsignatures.util.SHAUtil;
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
-public class SHATest extends TestCase {
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-	public void testSHA() throws Exception {
+public class SHATest  {
+
+	@Test
+	public void testSHA() {
 
 		String input = "$.02";
 

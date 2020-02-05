@@ -1,40 +1,39 @@
 package info.weboftrust.ldsignatures;
 
+import com.nimbusds.jose.*;
+import com.nimbusds.jose.crypto.RSASSASigner;
+import org.junit.jupiter.api.Test;
+
 import java.util.Collections;
 
-import com.nimbusds.jose.JWSAlgorithm;
-import com.nimbusds.jose.JWSHeader;
-import com.nimbusds.jose.JWSObject;
-import com.nimbusds.jose.JWSSigner;
-import com.nimbusds.jose.Payload;
-import com.nimbusds.jose.crypto.RSASSASigner;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import junit.framework.TestCase;
 
-public class BasicSignTest extends TestCase {
+public class BasicSignTest {
 
-	public void testSign() throws Exception {
+    @Test
+    public void testSign() throws Exception {
 
-		// build the payload
+        // build the payload
 
-		String unencodedPayload = "$.02";
+        String unencodedPayload = "$.02";
 
-		// build the JWS header and sign
+        // build the JWS header and sign
 
-		String signatureValue;
+        String signatureValue;
 
-		JWSHeader jwsHeader = new JWSHeader.Builder(JWSAlgorithm.RS256)
-				.customParam("b64", Boolean.FALSE)
-				.criticalParams(Collections.singleton("b64"))
-				.build();
+        JWSHeader jwsHeader = new JWSHeader.Builder(JWSAlgorithm.RS256)
+                .customParam("b64", Boolean.FALSE)
+                .criticalParams(Collections.singleton("b64"))
+                .build();
 
-		Payload payload = new Payload(unencodedPayload);
+        Payload payload = new Payload(unencodedPayload);
 
-		JWSObject jwsObject = new JWSObject(jwsHeader, payload);
+        JWSObject jwsObject = new JWSObject(jwsHeader, payload);
 
-		JWSSigner jwsSigner = new RSASSASigner(TestUtil.testRSAPrivateKey);
-		jwsObject.sign(jwsSigner);
-		signatureValue = jwsObject.serialize(true);
+        JWSSigner jwsSigner = new RSASSASigner(TestUtil.testRSAPrivateKey);
+        jwsObject.sign(jwsSigner);
+        signatureValue = jwsObject.serialize(true);
 
 		/*
 		JsonWebSignature jws = new JsonWebSignature();
@@ -46,8 +45,8 @@ public class BasicSignTest extends TestCase {
 		jws.setKey(TestUtil.testRSAPrivateKey);
 		signatureValue = jws.getDetachedContentCompactSerialization();*/
 
-		// done
+        // done
 
-		assertEquals("eyJjcml0IjpbImI2NCJdLCJiNjQiOmZhbHNlLCJhbGciOiJSUzI1NiJ9..XrdJ42-RRCvuErPRZvQ2NQ4d47npAGnTcM-bkgJHPYnLft08eLtICjqlfUPD31Kk1WO2HoPm6WfqEDhiq4-QGnm3mJ6YJfamGR5AJeP7guIdKR_m_-zuW8U-vXzzCTsiS6vSDG7lYVKjtE3rRYGyGFA1fGA-CgjkOkA3vD12EQcWMMqThP68jeH3j0cOoKgnvxnEL-EDZRzkbO2wARkiCBc11BJw6vDnn-WXe4xjvZTQpupbxDRT3BQG75oht_Ye9nc_J3vCJviRKItKAdfIOC0fjPJz9qcU4HMeSwqO-r3EchJV_kIJOLa5lU8Nq4L6DGGp1HOZb0neXIC9QHzkBA", signatureValue);
-	}
+        assertEquals("eyJjcml0IjpbImI2NCJdLCJiNjQiOmZhbHNlLCJhbGciOiJSUzI1NiJ9..XrdJ42-RRCvuErPRZvQ2NQ4d47npAGnTcM-bkgJHPYnLft08eLtICjqlfUPD31Kk1WO2HoPm6WfqEDhiq4-QGnm3mJ6YJfamGR5AJeP7guIdKR_m_-zuW8U-vXzzCTsiS6vSDG7lYVKjtE3rRYGyGFA1fGA-CgjkOkA3vD12EQcWMMqThP68jeH3j0cOoKgnvxnEL-EDZRzkbO2wARkiCBc11BJw6vDnn-WXe4xjvZTQpupbxDRT3BQG75oht_Ye9nc_J3vCJviRKItKAdfIOC0fjPJz9qcU4HMeSwqO-r3EchJV_kIJOLa5lU8Nq4L6DGGp1HOZb0neXIC9QHzkBA", signatureValue);
+    }
 }

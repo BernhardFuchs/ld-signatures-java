@@ -1,37 +1,39 @@
 package info.weboftrust.ldsignatures;
 
-import java.util.Collections;
-
 import com.nimbusds.jose.JWSVerifier;
 import com.nimbusds.jose.Payload;
 import com.nimbusds.jose.crypto.RSASSAVerifier;
-
 import info.weboftrust.ldsignatures.util.DetachedJWSObject;
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
-public class BasicVerifyTest extends TestCase {
+import java.util.Collections;
 
-	public void testVerify() throws Exception {
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-		// build the payload
+public class BasicVerifyTest {
 
-		String unencodedPayload = "$.02";
+    @Test
+    public void testVerify() throws Exception {
 
-		// build the JWS and verify
+        // build the payload
 
-		String signatureValue = "eyJjcml0IjpbImI2NCJdLCJiNjQiOmZhbHNlLCJhbGciOiJSUzI1NiJ9..XrdJ42-RRCvuErPRZvQ2NQ4d47npAGnTcM-bkgJHPYnLft08eLtICjqlfUPD31Kk1WO2HoPm6WfqEDhiq4-QGnm3mJ6YJfamGR5AJeP7guIdKR_m_-zuW8U-vXzzCTsiS6vSDG7lYVKjtE3rRYGyGFA1fGA-CgjkOkA3vD12EQcWMMqThP68jeH3j0cOoKgnvxnEL-EDZRzkbO2wARkiCBc11BJw6vDnn-WXe4xjvZTQpupbxDRT3BQG75oht_Ye9nc_J3vCJviRKItKAdfIOC0fjPJz9qcU4HMeSwqO-r3EchJV_kIJOLa5lU8Nq4L6DGGp1HOZb0neXIC9QHzkBA";
+        String unencodedPayload = "$.02";
 
-		boolean verify;
+        // build the JWS and verify
 
-		Payload jwsPayload = new Payload(unencodedPayload);
+        String signatureValue = "eyJjcml0IjpbImI2NCJdLCJiNjQiOmZhbHNlLCJhbGciOiJSUzI1NiJ9..XrdJ42-RRCvuErPRZvQ2NQ4d47npAGnTcM-bkgJHPYnLft08eLtICjqlfUPD31Kk1WO2HoPm6WfqEDhiq4-QGnm3mJ6YJfamGR5AJeP7guIdKR_m_-zuW8U-vXzzCTsiS6vSDG7lYVKjtE3rRYGyGFA1fGA-CgjkOkA3vD12EQcWMMqThP68jeH3j0cOoKgnvxnEL-EDZRzkbO2wARkiCBc11BJw6vDnn-WXe4xjvZTQpupbxDRT3BQG75oht_Ye9nc_J3vCJviRKItKAdfIOC0fjPJz9qcU4HMeSwqO-r3EchJV_kIJOLa5lU8Nq4L6DGGp1HOZb0neXIC9QHzkBA";
 
-		DetachedJWSObject jwsObject = DetachedJWSObject.parse(signatureValue, jwsPayload);
+        boolean verify;
 
-		JWSVerifier jwsVerifier = new RSASSAVerifier(TestUtil.testRSAPublicKey, Collections.singleton("b64"));
-		verify = jwsVerifier.verify(jwsObject.getHeader(), jwsObject.getSigningInput(), jwsObject.getParsedSignature());
+        Payload jwsPayload = new Payload(unencodedPayload);
 
-		// done
+        DetachedJWSObject jwsObject = DetachedJWSObject.parse(signatureValue, jwsPayload);
 
-		assertTrue(verify);
-	}
+        JWSVerifier jwsVerifier = new RSASSAVerifier(TestUtil.testRSAPublicKey, Collections.singleton("b64"));
+        verify = jwsVerifier.verify(jwsObject.getHeader(), jwsObject.getSigningInput(), jwsObject.getParsedSignature());
+
+        // done
+
+        assertTrue(verify);
+    }
 }

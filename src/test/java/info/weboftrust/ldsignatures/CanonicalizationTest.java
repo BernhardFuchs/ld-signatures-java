@@ -1,29 +1,32 @@
 package info.weboftrust.ldsignatures;
 
+import com.github.jsonldjava.utils.JsonUtils;
+import info.weboftrust.ldsignatures.util.CanonicalizationUtil;
+import org.junit.jupiter.api.Test;
+
 import java.util.LinkedHashMap;
 
-import com.github.jsonldjava.utils.JsonUtils;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import info.weboftrust.ldsignatures.util.CanonicalizationUtil;
-import junit.framework.TestCase;
+public class CanonicalizationTest {
 
-public class CanonicalizationTest extends TestCase {
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testCanonicalizationInput() throws Exception {
 
-	@SuppressWarnings("unchecked")
-	public void testCanonicalizationInput() throws Exception {
+        LinkedHashMap<String, Object> jsonLdObject = (LinkedHashMap<String, Object>) JsonUtils.fromInputStream(CanonicalizationTest.class.getResourceAsStream("input.jsonld"));
+        String canonicalizedDocument = TestUtil.read(CanonicalizationTest.class.getResourceAsStream("input.canonicalized"));
 
-		LinkedHashMap<String, Object> jsonLdObject = (LinkedHashMap<String, Object>) JsonUtils.fromInputStream(CanonicalizationTest.class.getResourceAsStream("input.jsonld"));
-		String canonicalizedDocument = TestUtil.read(CanonicalizationTest.class.getResourceAsStream("input.canonicalized"));
+        assertEquals(CanonicalizationUtil.buildCanonicalizedDocument(jsonLdObject), canonicalizedDocument);
+    }
 
-		assertEquals(CanonicalizationUtil.buildCanonicalizedDocument(jsonLdObject), canonicalizedDocument);
-	}
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testCanonicalizationSigned() throws Exception {
 
-	@SuppressWarnings("unchecked")
-	public void testCanonicalizationSigned() throws Exception {
+        LinkedHashMap<String, Object> jsonLdObject = (LinkedHashMap<String, Object>) JsonUtils.fromInputStream(CanonicalizationTest.class.getResourceAsStream("signed.rsa.jsonld"));
+        String canonicalizedDocument = TestUtil.read(CanonicalizationTest.class.getResourceAsStream("signed.rsa.canonicalized"));
 
-		LinkedHashMap<String, Object> jsonLdObject = (LinkedHashMap<String, Object>) JsonUtils.fromInputStream(CanonicalizationTest.class.getResourceAsStream("signed.rsa.jsonld"));
-		String canonicalizedDocument = TestUtil.read(CanonicalizationTest.class.getResourceAsStream("signed.rsa.canonicalized"));
-
-		assertEquals(CanonicalizationUtil.buildCanonicalizedDocument(jsonLdObject), canonicalizedDocument);
-	}
+        assertEquals(CanonicalizationUtil.buildCanonicalizedDocument(jsonLdObject), canonicalizedDocument);
+    }
 }

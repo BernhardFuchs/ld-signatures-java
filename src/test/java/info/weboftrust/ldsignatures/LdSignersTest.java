@@ -4,14 +4,17 @@ import info.weboftrust.ldsignatures.signer.EcdsaKoblitzSignature2016LdSigner;
 import info.weboftrust.ldsignatures.signer.Ed25519Signature2018LdSigner;
 import info.weboftrust.ldsignatures.signer.LdSigner;
 import info.weboftrust.ldsignatures.signer.RsaSignature2018LdSigner;
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
-public class LdSignersTest extends TestCase {
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-	public void testLdSigners() throws Exception {
+public class LdSignersTest {
 
-		assertEquals(LdSigner.ldSignerForSignatureSuite("Ed25519Signature2018").getClass(), Ed25519Signature2018LdSigner.class);
-		assertEquals(LdSigner.ldSignerForSignatureSuite("EcdsaKoblitzSignature2016").getClass(), EcdsaKoblitzSignature2016LdSigner.class);
-		assertEquals(LdSigner.ldSignerForSignatureSuite("RsaSignature2018").getClass(), RsaSignature2018LdSigner.class);
-	}
+    @Test
+    public void testLdSigners() {
+
+        assertEquals(LdSigner.ldSignerForSignatureSuite("Ed25519Signature2018").getClass(), Ed25519Signature2018LdSigner.class);
+        assertEquals(LdSigner.ldSignerForSignatureSuite("EcdsaKoblitzSignature2016").getClass(), EcdsaKoblitzSignature2016LdSigner.class);
+        assertEquals(LdSigner.ldSignerForSignatureSuite("RsaSignature2018").getClass(), RsaSignature2018LdSigner.class);
+    }
 }
