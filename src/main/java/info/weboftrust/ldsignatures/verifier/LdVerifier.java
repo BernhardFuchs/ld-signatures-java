@@ -41,24 +41,19 @@ public abstract class LdVerifier <SIGNATURESUITE extends SignatureSuite> {
 	public abstract boolean verify(String canonicalizedDocument, LdSignature ldSignature) throws GeneralSecurityException;
 
 	public boolean verify(LinkedHashMap<String, Object> jsonLdObject, LdSignature ldSignature) throws JsonLdError, GeneralSecurityException {
+		guardUnexpectedSignatureType(ldSignature);
+		String canonicalizedDocument = optainCanonicalizedDocument(jsonLdObject);
+		return this.verify(canonicalizedDocument, ldSignature);
+	}
 
-		// obtain the canonicalized document
-
-		LinkedHashMap<String, Object> jsonLdObjectWithoutSignature = new LinkedHashMap<String, Object> (jsonLdObject);
+	private String optainCanonicalizedDocument(LinkedHashMap<String, Object> jsonLdObject) {
+		LinkedHashMap<String, Object> jsonLdObjectWithoutSignature = new LinkedHashMap<> (jsonLdObject);
 		LdSignature.removeFromJsonLdObject(jsonLdObjectWithoutSignature);
-		String canonicalizedDocument = CanonicalizationUtil.buildCanonicalizedDocument(jsonLdObjectWithoutSignature);
+		return CanonicalizationUtil.buildCanonicalizedDocument(jsonLdObjectWithoutSignature);
+	}
 
-		// check the signature object
-
+	private void guardUnexpectedSignatureType(LdSignature ldSignature) throws GeneralSecurityException {
 		if (! this.getSignatureSuite().getTerm().equals(ldSignature.getType())) throw new GeneralSecurityException("Unexpected signature type: " + ldSignature.getType() + " is not " + this.getSignatureSuite().getTerm());
-
-		// verify
-
-		boolean verify = this.verify(canonicalizedDocument, ldSignature);
-
-		// done
-
-		return verify;
 	}
 
 	public boolean verify(LinkedHashMap<String, Object> jsonLdObject) throws JsonLdError, GeneralSecurityException {
