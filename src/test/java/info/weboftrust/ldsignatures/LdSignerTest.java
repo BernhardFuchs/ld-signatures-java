@@ -1,20 +1,18 @@
 package info.weboftrust.ldsignatures;
 
-import info.weboftrust.ldsignatures.signer.EcdsaKoblitzSignature2016LdSigner;
-import info.weboftrust.ldsignatures.signer.Ed25519Signature2018LdSigner;
-import info.weboftrust.ldsignatures.signer.LdSigner;
-import info.weboftrust.ldsignatures.signer.RsaSignature2018LdSigner;
+import info.weboftrust.ldsignatures.signer.*;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class LdSignersTest {
+public class LdSignerTest {
 
     @Test
-    public void testLdSigners() {
+    public void given_validSignerName_then_correctClassIsInstantiated() {
 
         assertEquals(LdSigner.ldSignerForSignatureSuite("Ed25519Signature2018").getClass(), Ed25519Signature2018LdSigner.class);
         assertEquals(LdSigner.ldSignerForSignatureSuite("EcdsaKoblitzSignature2016").getClass(), EcdsaKoblitzSignature2016LdSigner.class);
         assertEquals(LdSigner.ldSignerForSignatureSuite("RsaSignature2018").getClass(), RsaSignature2018LdSigner.class);
+        assertEquals(LdSigner.ldSignerForSignatureSuite("EcdsaSecp256k1Signature2019").getClass(), EcdsaSecp256k1Signature2019LdSigner.class);
     }
 }
