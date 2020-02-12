@@ -11,6 +11,7 @@ import info.weboftrust.ldsignatures.crypto.ByteSigner;
 import info.weboftrust.ldsignatures.suites.SignatureSuite;
 import info.weboftrust.ldsignatures.suites.SignatureSuites;
 import info.weboftrust.ldsignatures.util.CanonicalizationUtil;
+import info.weboftrust.ldsignatures.util.JSONLDUtil;
 
 public abstract class LdSigner <SIGNATURESUITE extends SignatureSuite> {
 
@@ -60,8 +61,7 @@ public abstract class LdSigner <SIGNATURESUITE extends SignatureSuite> {
 
 		// obtain the canonicalized document
 
-		LinkedHashMap<String, Object> jsonLdObjectWithoutSignature = new LinkedHashMap<String, Object> (jsonLdObject);
-		LdSignature.removeFromJsonLdObject(jsonLdObjectWithoutSignature);
+		LinkedHashMap<String, Object> jsonLdObjectWithoutSignature = JSONLDUtil.removeSignatureFromJsonLdObject(jsonLdObject);
 		String canonicalizedDocument = CanonicalizationUtil.buildCanonicalizedDocument(jsonLdObjectWithoutSignature);
 
 		// sign
