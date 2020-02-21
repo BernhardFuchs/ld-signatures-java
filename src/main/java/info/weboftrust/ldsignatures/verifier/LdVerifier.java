@@ -10,7 +10,6 @@ import info.weboftrust.ldsignatures.crypto.ByteVerifier;
 import info.weboftrust.ldsignatures.suites.SignatureSuite;
 import info.weboftrust.ldsignatures.suites.SignatureSuites;
 import info.weboftrust.ldsignatures.util.CanonicalizationUtil;
-import info.weboftrust.ldsignatures.util.JSONLDUtil;
 
 public abstract class LdVerifier <SIGNATURESUITE extends SignatureSuite> {
 
@@ -47,8 +46,7 @@ public abstract class LdVerifier <SIGNATURESUITE extends SignatureSuite> {
 		if (! this.getSignatureSuite().getTerm().equals(ldSignature.getType())) throw new GeneralSecurityException("Unexpected signature type: " + ldSignature.getType() + " is not " + this.getSignatureSuite().getTerm());
 
 		// obtain the canonicalized document
-		LinkedHashMap<String, Object> jsonLdObjectWithoutSignature = JSONLDUtil.removeSignatureFromJsonLdObject(jsonLdObject);
-		String canonicalizedDocument = CanonicalizationUtil.buildCanonicalizedDocument(jsonLdObjectWithoutSignature);
+		String canonicalizedDocument = CanonicalizationUtil.buildDocumentForInputJsonLd(jsonLdObject);
 
 		// verify
 		return this.verify(canonicalizedDocument, ldSignature);
