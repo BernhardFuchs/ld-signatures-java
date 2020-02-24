@@ -46,7 +46,7 @@ public abstract class LdVerifier <SIGNATURESUITE extends SignatureSuite> {
 		if (! this.getSignatureSuite().getTerm().equals(ldSignature.getType())) throw new GeneralSecurityException("Unexpected signature type: " + ldSignature.getType() + " is not " + this.getSignatureSuite().getTerm());
 
 		// obtain the canonicalized document
-		String canonicalizedDocument = CanonicalizationUtil.buildDocumentForInputJsonLd(jsonLdObject);
+		String canonicalizedDocument = CanonicalizationUtil.buildCanonicalizedDocumentForInputJsonLd(jsonLdObject);
 
 		// verify
 		return this.verify(canonicalizedDocument, ldSignature);

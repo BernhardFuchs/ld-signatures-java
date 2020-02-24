@@ -59,7 +59,7 @@ public abstract class LdSigner <SIGNATURESUITE extends SignatureSuite> {
 	public LdSignature sign(LinkedHashMap<String, Object> jsonLdObject, boolean add) throws JsonLdError, GeneralSecurityException {
 
 		// obtain the canonicalized document
-		String canonicalizedDocument = CanonicalizationUtil.buildDocumentForInputJsonLd(jsonLdObject);
+		String canonicalizedDocument = CanonicalizationUtil.buildCanonicalizedDocumentForInputJsonLd(jsonLdObject);
 
 		// sign
 
