@@ -28,9 +28,4 @@ public class CanonicalizationUtil {
 		options.format = JsonLdConsts.APPLICATION_NQUADS;
 		return (String) JsonLdProcessor.normalize(jsonLdObject, options);
 	}
-
-	@Deprecated()
-	public static String buildCanonicalizedDocument(Object jsonLdObject) throws JsonLdError {
-		return createCanonicalizedDocument(jsonLdObject);
-	}
 }
